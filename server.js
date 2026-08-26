@@ -6,17 +6,15 @@ const app = express()
 const port = Number(process.env.PORT || 4242)
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
-const validSizes = new Set(['XS','S','M','L','XL','XXL','XXXL'])
-
 app.use(express.json())
 app.use(express.static('public'))
 
 app.post('/api/create-checkout-session', async (request, response) => {
-  const {tier, size} = request.body || {}
-  const priceId = tier === '4' ? process.env.STRIPE_PRICE_4 : null
+  const {tier} = request.body || {}
+  const priceId = tier === '4' ? 'price_1U8pC9AYfbMrS1E4BhPugS52' : null
 
-  if(!priceId || !validSizes.has(size)){
-    return response.status(400).json({error:'Choose a valid price tier and size.'})
+  if(!priceId){
+    return response.status(400).json({error:'Choose a valid price tier.'})
   }
 
   try{
@@ -24,7 +22,7 @@ app.post('/api/create-checkout-session', async (request, response) => {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: [{price:priceId, quantity:1}],
-      metadata: {tier:String(tier), size},
+      metadata: {tier:String(tier)},
       success_url: `${origin}/?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/?checkout=cancelled`,
       integration_identifier: `surptees_${randomLetters(8)}`
