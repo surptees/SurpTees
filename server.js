@@ -6,12 +6,6 @@ const app = express()
 const port = Number(process.env.PORT || 4242)
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
-const priceIds = {
-  5: 'price_1U8TMJAYfbMrS1E4tuI3zAaQ',
-  10: 'price_1U8TN7AYfbMrS1E4FAdp6Cjp',
-  15: 'price_1U8TNlAYfbMrS1E4dPdBpY3j',
-  20: 'price_1U8TOIAYfbMrS1E47HI6Jv7y'
-}
 const validSizes = new Set(['XS','S','M','L','XL','XXL','XXXL'])
 
 app.use(express.json())
@@ -19,7 +13,7 @@ app.use(express.static('public'))
 
 app.post('/api/create-checkout-session', async (request, response) => {
   const {tier, size} = request.body || {}
-  const priceId = priceIds[tier]
+  const priceId = tier === '4' ? process.env.STRIPE_PRICE_4 : null
 
   if(!priceId || !validSizes.has(size)){
     return response.status(400).json({error:'Choose a valid price tier and size.'})

@@ -1,4 +1,3 @@
-const prices = [5,10,15,20]
 const colors = ['#f6b26b','#9fc5e8','#b6d7a8','#d9a1e3','#f4cccc']
 const mediaFiles = ['media/surptees.png','media/blanksurptees.png']
 
@@ -8,15 +7,12 @@ const teeImg = document.getElementById('teeImg')
 const checkoutBtn = document.getElementById('checkoutBtn')
 const sizeSelect = document.getElementById('size')
 const stripeCheckout = document.getElementById('stripeCheckout')
-const priceCarousel = document.getElementById('priceCarousel')
 const sizeCarousel = document.getElementById('sizeCarousel')
-const priceDots = document.getElementById('priceDots')
 const sizeDots = document.getElementById('sizeDots')
 const sizeValue = document.getElementById('sizeValue')
 
 let current = {price:null,color:colors[0],image:mediaFiles[0]}
 const carouselState = {
-  price: {items:prices.map(String), index:0, selected:null, track:priceCarousel, dots:priceDots, input:priceSelect, label:priceEl},
   size: {items:['XS','S','M','L','XL','XXL','XXXL'], index:0, selected:null, track:sizeCarousel, dots:sizeDots, input:sizeSelect, label:sizeValue}
 }
 
@@ -46,7 +42,6 @@ function selectCarousel(name,value){
   state.selected = value
   state.input.value = value
   state.label.textContent = name === 'price' ? `$${value}` : value
-  if(name === 'price') setTee(parseInt(value,10),current.color,current.image)
   renderCarousel(name)
 }
 
@@ -59,16 +54,11 @@ function moveCarousel(name,direction){
 
 checkoutBtn.addEventListener('click', ()=>{
   const size = sizeSelect.value
-  const selectedPrice = priceSelect && priceSelect.value
   if(!size){
     alert('Please choose a size before checking out.')
     return
   }
-  if(!selectedPrice){
-    alert('Please choose a price before checking out.')
-    return
-  }
-  startCheckout(selectedPrice,size)
+  startCheckout('4',size)
 })
 
 document.querySelectorAll('[data-carousel][data-direction]').forEach(button => {
@@ -77,7 +67,6 @@ document.querySelectorAll('[data-carousel][data-direction]').forEach(button => {
 
 // Keep the shirt image a surprise while requiring deliberate price and size choices.
 teeImg.src = mediaFiles[Math.floor(Math.random()*mediaFiles.length)]
-renderCarousel('price')
 renderCarousel('size')
 
 async function startCheckout(tier,size){

@@ -26,9 +26,9 @@ async function createCheckoutSession(request, env, url){
     return json({error:'Invalid request body.'},400)
   }
 
-  const tier = String(body?.tier || '')
+    const tier = String(body?.tier || '4')
   const size = String(body?.size || '')
-  const priceId = priceIds[tier]
+    const priceId = tier === '4' ? env.STRIPE_PRICE_4 : null
   if(!priceId || !validSizes.has(size)){
     return json({error:'Choose a valid price tier and size.'},400)
   }

@@ -26,6 +26,7 @@ select,input{padding:10px;border-radius:8px;border:1px solid #eee;min-width:140p
 .carousel-track{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;min-height:54px}
 .choice-card{border:1px solid #eee;background:#fff9f4;border-radius:8px;color:#222;cursor:pointer;font-size:16px;font-weight:800;min-height:54px}
 .choice-card.is-selected{background:var(--accent);border-color:var(--accent);color:#fff}
+.fixed-price{border:1px solid var(--accent);border-radius:10px;background:#fff3ef;color:var(--accent);font-size:22px;font-weight:800;min-height:54px;padding:12px;text-align:center}
 .carousel-nav{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px}
 .carousel-arrow{border:0;background:transparent;color:var(--accent);cursor:pointer;font-size:24px;line-height:1;padding:0 5px}
 .carousel-dots{color:#aaa;font-size:12px;letter-spacing:3px}
