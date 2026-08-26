@@ -1,6 +1,6 @@
 const prices = [5,10,15,20]
 const colors = ['#f6b26b','#9fc5e8','#b6d7a8','#d9a1e3','#f4cccc']
-const mediaFiles = ['media/surptees.png','media/surptees.jpg','media/surptees.svg']
+const mediaFiles = ['media/surptees.png','media/blanksurptees.png']
 
 const priceEl = document.getElementById('price')
 const priceSelect = document.getElementById('priceSelect')
