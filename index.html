@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SurpTees — Surprise Concert Tees</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Favicons: provide multiple sizes for different devices/browsers -->
+  <link rel="icon" type="image/png" sizes="16x16" href="media/blanksurptees.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="media/blanksurptees.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="media/blanksurptees.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="media/surptees.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="media/surptees.png">
+  <meta name="msapplication-TileImage" content="media/surptees.png">
+</head>
+<body>
+  <main class="container flyer">
+    <header class="hero">
+      <div class="hero-icon hero-icon-left" aria-hidden="true"><img src="media/blanksurptees.png" alt=""></div>
+      <h1>Surprise Concert Tee</h1>
+      <p class="tag">Pick your price. Pick your fit. The tee stays a surprise.</p>
+      <div class="hero-icon hero-icon-right" aria-hidden="true"><img src="media/surptees.png" alt=""></div>
+    </header>
+
+    <section class="card flyer-card">
+      <div class="tee-preview" id="teePreview" aria-hidden="true">
+
+        <img id="teeImg" src="media/surptees.png" alt="SurpTees" />
+      </div>
+
+      <div class="details">
+        <p class="lead">A surprise concert t-shirt shipped to you — sizes XS through XXXL. </p>
+
+        <div class="controls">
+          <div class="choice-carousel" aria-label="Choose your price">
+            <div class="choice-heading"><span>Price</span><span id="price" class="choice-value">Choose</span></div>
+            <div class="carousel-track" id="priceCarousel" role="group" aria-label="Price options"></div>
+            <div class="carousel-nav"><button class="carousel-arrow" type="button" data-carousel="price" data-direction="-1" aria-label="Previous price">‹</button><span id="priceDots" class="carousel-dots"></span><button class="carousel-arrow" type="button" data-carousel="price" data-direction="1" aria-label="Next price">›</button></div>
+          </div>
+
+          <div class="choice-carousel" aria-label="Choose your size">
+            <div class="choice-heading"><span>Size</span><span id="sizeValue" class="choice-value">Choose</span></div>
+            <div class="carousel-track" id="sizeCarousel" role="group" aria-label="Size options"></div>
+            <div class="carousel-nav"><button class="carousel-arrow" type="button" data-carousel="size" data-direction="-1" aria-label="Previous size">‹</button><span id="sizeDots" class="carousel-dots"></span><button class="carousel-arrow" type="button" data-carousel="size" data-direction="1" aria-label="Next size">›</button></div>
+          </div>
+
+          <input id="priceSelect" type="hidden" value="">
+          <input id="size" type="hidden" value="">
+
+          <button id="checkoutBtn" class="btn primary" type="button">Show Checkout</button>
+        </div>
+
+        <div id="stripeCheckout" class="stripe-checkout" hidden>
+          <p class="checkout-note">Your surprise tee is ready. Redirecting to secure Stripe Checkout...</p>
+        </div>
+      </div>
+    </section>
+
+    <aside id="orderMsg" class="order-msg" hidden></aside>
+
+    <footer class="site-footer">
+      <div class="footer-brand"><strong>SurpTees</strong><span>Surprise surplus concert tees.</span></div>
+      <div class="footer-columns">
+        <div><h2>Customer Support</h2><a href="customer-support.html">Customer Support</a><a href="help-center.html">Help Center</a><a href="surptees-help.html">SurpTees Help</a><a href="faqs.html">FAQs</a><a href="contact-us.html">Contact Us</a><a href="shipping-returns.html">Shipping &amp; Returns</a><a href="shipping-info.html">Shipping Info</a><a href="returns-exchanges.html">Returns &amp; Exchanges</a><a href="payment-methods.html">Payment Methods</a></div>
+        <div><h2>Company</h2><a href="about-us.html">About Us</a><a href="our-values.html">Our Values</a><a href="wholesale-program.html">Wholesale Program</a></div>
+        <div><h2>Legal &amp; Privacy</h2><a href="privacy-policy.html">Privacy Policy</a><a href="terms-of-service.html">Terms of Service</a><a href="accessibility.html">Accessibility</a><a href="transfer-rewards-terms.html">Transfer Rewards Terms</a><a href="notice-at-collection.html">Notice at Collection</a><a href="your-privacy-choices.html">Your Privacy Choices</a><a href="do-not-sell.html">Do Not Sell My Personal Information</a></div>
+      </div>
+      <div class="social-row" aria-label="SurpTees social links">
+        <a href="https://github.com" aria-label="GitHub"><img src="https://cdn.simpleicons.org/github" alt="GitHub"></a>
+        <a href="https://facebook.com" aria-label="Facebook"><img src="https://cdn.simpleicons.org/facebook" alt="Facebook"></a>
+        <a href="https://tiktok.com" aria-label="TikTok"><img src="https://cdn.simpleicons.org/tiktok" alt="TikTok"></a>
+        <a href="https://instagram.com" aria-label="Instagram"><img src="https://cdn.simpleicons.org/instagram" alt="Instagram"></a>
+        <a href="https://youtube.com" aria-label="YouTube"><img src="https://cdn.simpleicons.org/youtube" alt="YouTube"></a>
+        <a href="https://x.com" aria-label="X"><img src="https://cdn.simpleicons.org/x" alt="X"></a>
+        <a href="https://linkedin.com" aria-label="LinkedIn"><img src="https://cdn.simpleicons.org/linkedin" alt="LinkedIn"></a>
+        <a href="https://stripe.com" aria-label="Payments powered by Stripe"><img src="https://cdn.simpleicons.org/stripe" alt="Stripe"></a>
+      </div>
+      <div class="footer-bottom"><small>© 2026 SurpTees.com</small><span><a href="privacy-policy.html">Privacy Policy</a> <a href="terms-of-service.html">Terms of Use</a> <a href="do-not-sell.html">Do Not Sell My Personal Information</a></span></div>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
