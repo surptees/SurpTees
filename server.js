@@ -15,7 +15,7 @@ const priceIds = {
 const validSizes = new Set(['XS','S','M','L','XL','XXL','XXXL'])
 
 app.use(express.json())
-app.use(express.static('.'))
+app.use(express.static('public'))
 
 app.post('/api/create-checkout-session', async (request, response) => {
   const {tier, size} = request.body || {}
