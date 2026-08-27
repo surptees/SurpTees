@@ -4,9 +4,11 @@ SurpTees landing page with a server-created Stripe Checkout Session for a single
 
 Usage
 - Install dependencies with `npm install`.
-- Copy `.env.example` to `.env` and set `STRIPE_SECRET_KEY` for the live `surptees.com` account.
+- Copy `.env.example` to `.env`, then replace the placeholders with your local Stripe values.
 - Start the server with `npm start`.
 - Open `http://localhost:4242` and start checkout.
+
+Cloudflare's local development tooling can load `.env` for local variables. Keep `.env` private; it is ignored by Git. Use `npx wrangler secret put STRIPE_SECRET_KEY` for the deployed Worker instead of committing or uploading the local file.
 
 Cloudflare Workers deployment
 - The Worker entry point is `worker.js`; static files are in `public/`.
