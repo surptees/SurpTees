@@ -2,11 +2,15 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url)
 
-    if(url.pathname === '/api/create-checkout-session' && request.method === 'POST'){
+    if(url.pathname === '/api/create-checkout-session'){
+      if(request.method !== 'POST'){
+        return json({error:'Method not allowed.'},405,{Allow:'POST'})
+      }
+
       return createCheckoutSession(request, env, url)
     }
 
-    return env.ASSETS.fetch(request)
+    return new Response('Not Found',{status:404})
   }
 }
 
@@ -18,8 +22,8 @@ async function createCheckoutSession(request, env, url){
     return json({error:'Invalid request body.'},400)
   }
 
-    const tier = String(body?.tier || '4')
-    const priceId = tier === '4' ? 'price_1U8pC9AYfbMrS1E4BhPugS52' : null
+  const tier = String(body?.tier || '4')
+  const priceId = tier === '4' ? 'price_1U8pC9AYfbMrS1E4BhPugS52' : null
   if(!priceId){
     return json({error:'Choose a valid price tier.'},400)
   }
@@ -52,8 +56,11 @@ async function createCheckoutSession(request, env, url){
   return json({url:result.url})
 }
 
-function json(body,status=200){
-  return new Response(JSON.stringify(body),{status,headers:{'Content-Type':'application/json'}})
+function json(body,status=200,headers={}){
+  return new Response(JSON.stringify(body),{
+    status,
+    headers:{'Content-Type':'application/json',...headers}
+  })
 }
 
 function randomLetters(length){
