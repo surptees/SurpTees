@@ -27,11 +27,15 @@ select,input{padding:10px;border-radius:8px;border:1px solid #eee;min-width:140p
 .choice-card{border:1px solid #eee;background:#fff9f4;border-radius:8px;color:#222;cursor:pointer;font-size:16px;font-weight:800;min-height:54px}
 .choice-card.is-selected{background:var(--accent);border-color:var(--accent);color:#fff}
 .fixed-price{border:1px solid var(--accent);border-radius:10px;background:#fff3ef;color:var(--accent);font-size:22px;font-weight:800;min-height:54px;padding:12px;text-align:center}
+.fixed-price span{font-size:13px;color:var(--muted);font-weight:700}
+.quantity-field{display:grid;gap:5px}.quantity-field label{font-weight:800;color:#333}.quantity-field label span{color:var(--accent)}.quantity-field select{width:100%;background:#fff;border-color:#d9cec4}.quantity-field small{color:var(--muted);font-size:12px}
+.order-summary{margin:0;min-height:42px;padding:10px 12px;border:1px solid #eadfd5;border-radius:8px;background:#fff9f4;color:#333;font-size:14px;font-weight:700}
 .carousel-nav{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:8px}
 .carousel-arrow{border:0;background:transparent;color:var(--accent);cursor:pointer;font-size:24px;line-height:1;padding:0 5px}
 .carousel-dots{color:#aaa;font-size:12px;letter-spacing:3px}
 .btn{padding:10px 14px;border-radius:10px;border:1px solid #ddd;background:#fff;cursor:pointer;font-weight:700}
 .btn.primary{background:var(--accent);color:#fff;border-color:transparent}
+.btn:disabled{cursor:not-allowed;opacity:.55}
 .stripe-checkout{margin-top:22px;padding-top:18px;border-top:2px solid #f1e6db}
 .checkout-note{margin:0 0 10px;color:var(--muted);font-size:14px;font-weight:600}
 .stripe-checkout{color:var(--muted);font-size:14px;font-weight:600}

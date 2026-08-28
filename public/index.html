@@ -29,13 +29,32 @@
       </div>
 
       <div class="details">
-        <p class="lead">One surprise concert t-shirt for $4. Inventory is random and each purchase is one-off.</p>
+        <p class="lead">Surprise concert t-shirts are $4 each. Choose how many you want before continuing to checkout.</p>
 
         <div class="controls">
-          <div class="fixed-price" aria-label="Fixed price">$4</div>
+          <div class="fixed-price" aria-label="Fixed price per shirt">$4 <span>each</span></div>
           <input id="priceSelect" type="hidden" value="4">
 
-          <button id="checkoutBtn" class="btn primary" type="button">Show Checkout</button>
+          <div class="quantity-field">
+            <label for="quantitySelect">Quantity <span aria-hidden="true">*</span></label>
+            <select id="quantitySelect" required aria-describedby="quantityHelp">
+              <option value="" selected disabled>Choose quantity</option>
+              <option value="1">1 tee</option>
+              <option value="2">2 tees</option>
+              <option value="3">3 tees</option>
+              <option value="4">4 tees</option>
+              <option value="5">5 tees</option>
+              <option value="6">6 tees</option>
+              <option value="7">7 tees</option>
+              <option value="8">8 tees</option>
+              <option value="9">9 tees</option>
+              <option value="10">10 tees</option>
+            </select>
+            <small id="quantityHelp">Required. Maximum 10 tees per checkout.</small>
+          </div>
+
+          <p id="orderSummary" class="order-summary" aria-live="polite">Choose a quantity to see your total.</p>
+          <button id="checkoutBtn" class="btn primary" type="button" disabled aria-disabled="true">Choose Quantity</button>
         </div>
 
         <div id="stripeCheckout" class="stripe-checkout" hidden>

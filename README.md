@@ -18,6 +18,6 @@ Cloudflare Workers deployment
 - Deploy with `npm run deploy`.
 - Connect the Worker to the custom domain after deployment. Do not add the Stripe secret to `wrangler.jsonc` or commit `.env`.
 
-The browser posts only `tier` (always `4`) to `/api/create-checkout-session`. The server maps the tier to the live one-time $4 Price from the `surptees.com` Stripe account, creates a Checkout Session, and redirects to Stripe-hosted Checkout. Do not commit `.env` or secret keys.
+The browser posts `tier` (always `4`) and the required customer-selected `quantity` (1-10) to `/api/create-checkout-session`. The server validates both values, maps the tier to the live one-time $4 Price from the `surptees.com` Stripe account, applies the quantity to the Checkout line item, creates a Checkout Session, and redirects to Stripe-hosted Checkout. The Stripe Product and Price do not need to change. Do not commit `.env` or secret keys.
 
 Before production, add a verified Stripe webhook for `checkout.session.completed` and `checkout.session.async_payment_succeeded` to record orders and trigger fulfillment.

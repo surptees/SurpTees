@@ -11,18 +11,22 @@ app.use(express.static('public'))
 
 app.post('/api/create-checkout-session', async (request, response) => {
   const {tier} = request.body || {}
+  const quantity = Number(request.body?.quantity)
   const priceId = tier === '4' ? 'price_1U8pC9AYfbMrS1E4BhPugS52' : null
 
   if(!priceId){
     return response.status(400).json({error:'Choose a valid price tier.'})
+  }
+  if(!Number.isInteger(quantity) || quantity < 1 || quantity > 10){
+    return response.status(400).json({error:'Choose a quantity from 1 to 10.'})
   }
 
   try{
     const origin = request.headers.origin || `${request.protocol}://${request.get('host')}`
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
-      line_items: [{price:priceId, quantity:1}],
-      metadata: {tier:String(tier)},
+      line_items: [{price:priceId, quantity}],
+      metadata: {tier:String(tier), quantity:String(quantity)},
       success_url: `${origin}/?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/?checkout=cancelled`,
       integration_identifier: `surptees_${randomLetters(8)}`

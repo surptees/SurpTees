@@ -1,32 +1,43 @@
-const colors = ['#f6b26b','#9fc5e8','#b6d7a8','#d9a1e3','#f4cccc']
 const mediaFiles = ['media/surptees.png','media/blanksurptees.png']
+const unitPrice = 4
+const maxQuantity = 10
 
-const priceEl = document.getElementById('price')
-const priceSelect = document.getElementById('priceSelect')
 const teeImg = document.getElementById('teeImg')
+const quantitySelect = document.getElementById('quantitySelect')
+const orderSummary = document.getElementById('orderSummary')
 const checkoutBtn = document.getElementById('checkoutBtn')
 const stripeCheckout = document.getElementById('stripeCheckout')
 
-let current = {price:null,color:colors[0],image:mediaFiles[0]}
-
-function setTee(price,color,image){
-  current = {price,color,image}
-  priceEl.textContent = price
-  if(teeImg && image) teeImg.src = image
-}
-
-function pickRandomColor(){
-  return colors[Math.floor(Math.random()*colors.length)]
+function selectedQuantity(){
+  const quantity = Number(quantitySelect.value)
+  return Number.isInteger(quantity) && quantity >= 1 && quantity <= maxQuantity ? quantity : null
 }
 
 checkoutBtn.addEventListener('click', ()=>{
-  startCheckout('4')
+  const quantity = selectedQuantity()
+  if(!quantity){
+    quantitySelect.focus()
+    return
+  }
+  startCheckout('4',quantity)
 })
+
+quantitySelect.addEventListener('change', updateQuantityState)
 
 // Keep the shirt image a surprise for every one-off purchase.
 teeImg.src = mediaFiles[Math.floor(Math.random()*mediaFiles.length)]
 
-async function startCheckout(tier){
+function updateQuantityState(){
+  const quantity = selectedQuantity()
+  checkoutBtn.disabled = !quantity
+  checkoutBtn.setAttribute('aria-disabled',String(!quantity))
+  checkoutBtn.textContent = quantity ? 'Continue to Checkout' : 'Choose Quantity'
+  orderSummary.textContent = quantity
+    ? `${quantity} ${quantity === 1 ? 'tee' : 'tees'} × $${unitPrice} = $${quantity * unitPrice}`
+    : 'Choose a quantity to see your total.'
+}
+
+async function startCheckout(tier,quantity){
   checkoutBtn.disabled = true
   checkoutBtn.textContent = 'Opening secure checkout...'
   stripeCheckout.hidden = false
@@ -35,15 +46,16 @@ async function startCheckout(tier){
     const response = await fetch('/api/create-checkout-session',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({tier})
+      body:JSON.stringify({tier,quantity})
     })
     const result = await response.json()
     if(!response.ok || !result.url) throw new Error(result.error || 'Checkout could not be started.')
     window.location.assign(result.url)
   }catch(error){
     stripeCheckout.hidden = true
-    checkoutBtn.disabled = false
-    checkoutBtn.textContent = 'Show Checkout'
+    updateQuantityState()
     alert(error.message)
   }
 }
+
+updateQuantityState()
