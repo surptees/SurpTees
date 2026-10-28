@@ -3,10 +3,25 @@ export default {
     const url = new URL(request.url)
 
     if(url.pathname === '/api/create-checkout-session' && request.method === 'POST'){
-      return createCheckoutSession(request, env, url)
+      try{
+        return await createCheckoutSession(request, env, url)
+      }catch(error){
+        console.error('Checkout session creation failed:',error)
+        return json({error:'Unable to start checkout.'},502)
+      }
     }
 
-    return env.ASSETS.fetch(request)
+    if(!env?.ASSETS || typeof env.ASSETS.fetch !== 'function'){
+      console.error('Static assets binding is not configured.')
+      return json({error:'Service temporarily unavailable.'},500)
+    }
+
+    try{
+      return await env.ASSETS.fetch(request)
+    }catch(error){
+      console.error('Static asset fetch failed:',error)
+      return json({error:'Service temporarily unavailable.'},500)
+    }
   }
 }
 
@@ -52,6 +67,10 @@ async function createCheckoutSession(request, env, url){
   const result = await stripeResponse.json()
   if(!stripeResponse.ok){
     console.error('Stripe Checkout session error:',result?.error?.message || 'Unknown error')
+    return json({error:'Unable to start checkout.'},502)
+  }
+  if(typeof result?.url !== 'string' || !result.url.trim()){
+    console.error('Stripe Checkout response is missing its redirect URL.')
     return json({error:'Unable to start checkout.'},502)
   }
   return json({url:result.url})

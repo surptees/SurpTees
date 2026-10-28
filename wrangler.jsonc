@@ -1,10 +1,11 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "surptees",
+  "name": "surptees-checkout-api",
   "main": "worker.js",
   "compatibility_date": "2026-08-26",
   "assets": {
-    "directory": "./public"
+    "directory": "./public",
+    "binding": "ASSETS"
   },
   "observability": {
     "enabled": true
