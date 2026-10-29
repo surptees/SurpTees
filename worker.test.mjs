@@ -147,6 +147,38 @@ test('a successful Stripe response without a Checkout URL returns 502', async ()
   })
 })
 
+
+test('homepage and customer guidance show pickup before checkout and remove shipping promises', () => {
+  const homepage = readFileSync(new URL('./public/index.html', import.meta.url), 'utf8')
+  const pickupPosition = homepage.indexOf('The Smoke Shop, 638 Walton Avenue, Bronx, NY')
+  const checkoutPosition = homepage.indexOf('id="checkoutBtn"')
+  assert.ok(pickupPosition >= 0 && pickupPosition < checkoutPosition)
+  assert.ok(homepage.includes('Shipping coming soon.'))
+  assert.ok(homepage.includes('Maximum 10 tees per checkout'))
+  assert.ok(homepage.includes('$4 <span>each</span>'))
+
+  for (const file of ['faqs.html', 'shipping-info.html', 'shipping-returns.html', 'surptees-help.html']) {
+    const content = readFileSync(new URL(`./public/${file}`, import.meta.url), 'utf8')
+    assert.ok(content.includes('The Smoke Shop, 638 Walton Avenue, Bronx, NY'), file)
+    assert.ok(content.includes('Shipping coming soon.'), file)
+    assert.doesNotMatch(content, /typically ship within|tracking is emailed|shipping rates and estimated arrival|shipping charges and delivery estimates/, file)
+  }
+
+  const help = readFileSync(new URL('./public/help-center.html', import.meta.url), 'utf8')
+  assert.match(help, /pickup location before continuing to secure Stripe Checkout/)
+  const returns = readFileSync(new URL('./public/returns-exchanges.html', import.meta.url), 'utf8')
+  assert.ok(!returns.includes('package arrives damaged'))
+  assert.ok(returns.includes('issue with your pickup order'))
+  const about = readFileSync(new URL('./public/about-us.html', import.meta.url), 'utf8')
+  assert.ok(about.includes('unknown until you pick up your order'))
+})
+
+test('alternate Express checkout keeps pickup guidance and does not configure shipping', () => {
+  const server = readFileSync(new URL('./server.js', import.meta.url), 'utf8')
+  assert.ok(server.includes("custom_text: { submit: { message: 'In-store pickup at The Smoke Shop, 638 Walton Avenue, Bronx, NY. Shipping coming soon.' } }"))
+  assert.doesNotMatch(server, /shipping_address_collection|shipping_options/)
+})
+
 test('successful mocked checkout preserves product, quantity, and redirect behavior', async () => {
   let stripeRequest
   const secret = 'sk_test_mock_only'
@@ -170,6 +202,9 @@ test('successful mocked checkout preserves product, quantity, and redirect behav
   assert.equal(params.get('line_items[0][quantity]'), '3')
   assert.equal(params.get('metadata[tier]'), '4')
   assert.equal(params.get('metadata[quantity]'), '3')
+  assert.equal(params.get('custom_text[submit][message]'), 'In-store pickup at The Smoke Shop, 638 Walton Avenue, Bronx, NY. Shipping coming soon.')
+  assert.equal(params.get('shipping_address_collection'), null)
+  assert.equal(params.get('shipping_options[0][shipping_rate]'), null)
   assert.equal(params.get('success_url'), 'https://surptees.com/?checkout=success&session_id={CHECKOUT_SESSION_ID}')
   assert.equal(params.get('cancel_url'), 'https://surptees.com/?checkout=cancelled')
 })

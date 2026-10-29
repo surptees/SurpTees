@@ -52,6 +52,7 @@ async function createCheckoutSession(request, env, url){
   params.set('line_items[0][quantity]',String(quantity))
   params.set('metadata[tier]',tier)
   params.set('metadata[quantity]',String(quantity))
+  params.set('custom_text[submit][message]','In-store pickup at The Smoke Shop, 638 Walton Avenue, Bronx, NY. Shipping coming soon.')
   params.set('success_url',`${url.origin}/?checkout=success&session_id={CHECKOUT_SESSION_ID}`)
   params.set('cancel_url',`${url.origin}/?checkout=cancelled`)
   params.set('integration_identifier',`surptees_${randomLetters(8)}`)

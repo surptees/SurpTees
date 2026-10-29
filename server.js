@@ -27,6 +27,7 @@ app.post('/api/create-checkout-session', async (request, response) => {
       mode: 'payment',
       line_items: [{price:priceId, quantity}],
       metadata: {tier:String(tier), quantity:String(quantity)},
+      custom_text: { submit: { message: 'In-store pickup at The Smoke Shop, 638 Walton Avenue, Bronx, NY. Shipping coming soon.' } },
       success_url: `${origin}/?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/?checkout=cancelled`,
       integration_identifier: `surptees_${randomLetters(8)}`
